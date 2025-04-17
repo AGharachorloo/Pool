@@ -11,4 +11,35 @@ public class Player {
         hasWon = false;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isStripes() {
+        return isStripes;
+    }
+
+    public void setStripes(boolean stripes) {
+        isStripes = stripes;
+    }
+
+    public int getBallsLeft() {
+        return ballsLeft;
+    }
+
+    public void setBallsLeft(int ballsLeft) {
+        this.ballsLeft = ballsLeft;
+    }
+
+    public boolean isHasWon() {
+        return hasWon;
+    }
+
+    public void setHasWon(boolean hasWon) {
+        this.hasWon = hasWon;
+    }
 }
