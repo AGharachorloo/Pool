@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferStrategy;
 
 public class GameView extends JFrame {
     private final static int WINDOW_HEIGHT = 796;
@@ -32,6 +33,7 @@ public class GameView extends JFrame {
         }
         x = 200;
         y = 300;
+        createBufferStrategy(2);
     }
 
     @Override

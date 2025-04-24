@@ -85,6 +85,10 @@ public class Game implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
         if (e.getX() < front.getWindowWidth() - front.getBallDiameter() - 65 && e.getX() > 65) {
             front.setX(e.getX());
         }
@@ -92,11 +96,6 @@ public class Game implements MouseListener, MouseMotionListener {
             front.setY(e.getY());
         }
         front.repaint();
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
     }
 
     @Override
