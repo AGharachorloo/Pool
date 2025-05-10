@@ -1,57 +1,26 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferStrategy;
+import java.awt.event.*;
 
-public class GameView extends JFrame {
-    private final static int WINDOW_HEIGHT = 796;
-    private final static int WINDOW_WIDTH = 468;
-    private final static int BALL_DIAMETER = 30;
+public class GameView extends JPanel implements MouseListener, MouseMotionListener {
+    public final static int WINDOW_HEIGHT = 796;
+    public final static int WINDOW_WIDTH = 468;
+    public final static int BALL_DIAMETER = 15;
     private final int INTRO_SCREEN = 0, GAME_SCREEN = 1, END_SCREEN = 2;
-    private Image instructions, table, stick, meter, intro, results;
-    private int[] winX, winY;
+    private Image instructions, table, intro, results;
     private Game back;
-    private int x, y;
 
     public GameView(Game back) {
         this.back = back;
-        this.setTitle("Pool!");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        this.setVisible(true);
 //        instructions = new ImageIcon();
         table = new ImageIcon("Resources/poolTable.png").getImage();
-//        stick = new ImageIcon();
-//        meter = new ImageIcon();
 //        intro = new ImageIcon();
 //        results = new ImageIcon();
-        winX = new int[6];
-        winY = new int[6];
-
-        for (int i = 0; i < 6; i++) {
-            winX[i] = (i%2)*300 + 100;
-            winY[i] = (i/2)*300 + 50;
-        }
-        x = 200;
-        y = 300;
-        createBufferStrategy(2);
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+        this.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        this.setBackground(Color.WHITE);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+        this.setVisible(true);
     }
 
     public int getWindowHeight() {
@@ -66,10 +35,57 @@ public class GameView extends JFrame {
         return BALL_DIAMETER;
     }
 
-    public void paint(Graphics g) {
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         g.drawImage(table, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
-//        g.drawImage(back.getBall().getBallImage(), back.getBall().getxLoc(), back.getBall().getyLoc(), BALL_DIAMETER, BALL_DIAMETER, this);
-        g.setColor(Color.RED);
-        g.fillOval(x, y, BALL_DIAMETER, BALL_DIAMETER);
+        Point[] pockets = back.getPockets();
+
+        for (Ball b : back.getBalls()) {
+            b.draw(g);
+        }
+
+        Point[] cueLine = back.getCueLine();
+        if (back.isAiming() && cueLine != null) {
+            g.setColor(Color.WHITE);
+            g.drawLine((int)cueLine[0].getX(), (int)cueLine[0].getY(), (int)cueLine[1].getX(), (int)cueLine[1].getY());
+        }
+
+        g.setColor(Color.BLACK);
+        g.drawString("Score: " + back.getScore(), 10, 20);
+        String player = "Player 2";
+        if (back.isPlayerTurn()) {
+            player = "Player 1";
+        }
+        g.drawString("Turn: " + player, 80, 20);
+
     }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        back.setCueStart(e.getPoint());
+        back.setAiming(true);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        back.shoot(e.getPoint());
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        back.setMousePosition(e.getX(), e.getY());
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        back.setMousePosition(e.getX(), e.getY());
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }
