@@ -5,6 +5,9 @@ import java.util.ArrayList;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Game {
+    public static final int STATE_INTRO = 0;
+    public static final int STATE_PLAYING = 1;
+    public static final int STATE_GAME_OVER = 2;
     public final static int WINDOW_HEIGHT = 796;
     public final static int WINDOW_WIDTH = 468;
     private boolean isGameOver;
@@ -23,6 +26,7 @@ public class Game {
     private boolean playerTurn;
     private boolean cueBallHit;
     private boolean scored;
+    private int gameState;
 
     // Initialize the game, set up UI & start timer
     public Game() {
@@ -40,6 +44,10 @@ public class Game {
 
     // Update the ball positions and game
     private void updateGame() {
+        if (gameState != STATE_PLAYING) {
+            return;
+        }
+
         for (Ball b : balls) {
             b.update();
         }
@@ -77,7 +85,9 @@ public class Game {
                     if (b.getColor().equals(Color.WHITE)) {
                         cuePocketed = true;
                     } else if (b.getColor().equals(Color.BLACK)) {
+                        gameState = STATE_GAME_OVER;
                         blackPocketed = true;
+                        break;
                     } else {
                         scored = true;
                         score++;
@@ -279,6 +289,14 @@ public class Game {
 
     public double getPocketRadius() {
         return getBallRadius() * 2;
+    }
+
+    public int getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(int gameState) {
+        this.gameState = gameState;
     }
 
     public static void main(String[] args) {

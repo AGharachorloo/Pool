@@ -9,10 +9,13 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
     private final int INTRO_SCREEN = 0, GAME_SCREEN = 1, END_SCREEN = 2;
     private Image instructions, table, intro, results;
     private Game back;
+    private Font titleFont, instructionFont;
 
     // Initialize the window & set up mouseListeners
     public GameView(Game back) {
         this.back = back;
+        titleFont = new Font("SansSerif", Font.BOLD, 36);
+        instructionFont = new Font("SanSerif", Font.PLAIN, 18);
 //        instructions = new ImageIcon();
         table = new ImageIcon("Resources/poolTable.png").getImage();
 //        intro = new ImageIcon();
@@ -39,30 +42,43 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
     }
 
     @Override
-    // Draws table, balls, cueline, score, & playerTurn
+    // Draws table, balls, cueline, score, & playerTurn as well as intro & end screen depending on game state
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(table, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
-        Point[] pockets = back.getPockets();
+        if (back.getGameState() == Game.STATE_INTRO) {
+            g.setColor(Color.BLACK);
+            g.setFont(titleFont);
+            g.drawString("POOL GAME", 130, 200);
+            g.setFont(instructionFont);
+            g.drawString("Press SPACE to Start", 140, 260);
+        } else if (back.getGameState() == Game.STATE_PLAYING){
+            g.drawImage(table, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
+            Point[] pockets = back.getPockets();
 
-        for (Ball b : back.getBalls()) {
-            b.draw(g);
+            for (Ball b : back.getBalls()) {
+                b.draw(g);
+            }
+
+            Point[] cueLine = back.getCueLine();
+            if (back.isAiming() && cueLine != null) {
+                g.setColor(Color.WHITE);
+                g.drawLine((int)cueLine[0].getX(), (int)cueLine[0].getY(), (int)cueLine[1].getX(), (int)cueLine[1].getY());
+            }
+
+            g.setColor(Color.BLACK);
+            g.drawString("Score: " + back.getScore(), 10, 20);
+            String player = "Player 2";
+            if (back.isPlayerTurn()) {
+                player = "Player 1";
+            }
+            g.drawString("Turn: " + player, 80, 20);
+        } else if (back.getGameState() == Game.STATE_GAME_OVER) {
+            g.setColor(Color.BLACK);
+            g.setFont(titleFont);
+            g.drawString("GAME OVER", 130, 200);
+            g.setFont(instructionFont);
+            g.drawString("Press SPACE to Restart", 120, 260);
         }
-
-        Point[] cueLine = back.getCueLine();
-        if (back.isAiming() && cueLine != null) {
-            g.setColor(Color.WHITE);
-            g.drawLine((int)cueLine[0].getX(), (int)cueLine[0].getY(), (int)cueLine[1].getX(), (int)cueLine[1].getY());
-        }
-
-        g.setColor(Color.BLACK);
-        g.drawString("Score: " + back.getScore(), 10, 20);
-        String player = "Player 2";
-        if (back.isPlayerTurn()) {
-            player = "Player 1";
-        }
-        g.drawString("Turn: " + player, 80, 20);
-
     }
 
     @Override
@@ -102,9 +118,19 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
     }
 
     @Override
+    // If a key is pressed check if it is R or the space bar & either reset game or start game
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_R) {
             back.restartGame();
+            back.setGameState(Game.STATE_INTRO);
+            repaint();
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            if (back.getGameState() == Game.STATE_INTRO || back.getGameState() == Game.STATE_GAME_OVER) {
+                back.setGameState(Game.STATE_PLAYING);
+                back.restartGame();
+            }
         }
     }
 
