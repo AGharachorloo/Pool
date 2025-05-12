@@ -23,8 +23,8 @@ public class Ball {
     public void update() {
         x += vx;
         y += vy;
-        vx *= 0.989;
-        vy *= 0.989;
+        vx *= 0.988;
+        vy *= 0.988;
         if (x - RADIUS < 68 && vx < 0 || x + RADIUS > GameView.WINDOW_WIDTH - 68 && vx > 0) {
             vx = -vx;
         }

@@ -48,9 +48,9 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
         if (back.getGameState() == Game.STATE_INTRO) {
             g.setColor(Color.BLACK);
             g.setFont(titleFont);
-            g.drawString("POOL GAME", 130, 200);
+            g.drawString("POOL GAME", 130, 225);
             g.setFont(instructionFont);
-            g.drawString("Press SPACE to Start", 140, 260);
+            g.drawString("Press SPACE to Start", 155, 300);
         } else if (back.getGameState() == Game.STATE_PLAYING){
             g.drawImage(table, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
             Point[] pockets = back.getPockets();
@@ -75,9 +75,9 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
         } else if (back.getGameState() == Game.STATE_GAME_OVER) {
             g.setColor(Color.BLACK);
             g.setFont(titleFont);
-            g.drawString("GAME OVER", 130, 200);
+            g.drawString("GAME OVER", 130, 225);
             g.setFont(instructionFont);
-            g.drawString("Press SPACE to Restart", 120, 260);
+            g.drawString("Press SPACE to Restart", 155, 300);
         }
     }
 
