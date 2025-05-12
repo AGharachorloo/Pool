@@ -2,8 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Game {
     public static final int STATE_INTRO = 0;
     public static final int STATE_PLAYING = 1;
@@ -31,8 +29,6 @@ public class Game {
     // Initialize the game, set up UI & start timer
     public Game() {
         isGameOver = false;
-//        Image nineStripe = new ImageIcon("Resources/9Stripe.png").getImage();
-//        ball = new Ball(9,200, 300, nineStripe, true);
         initializeBalls();
         front = new GameView(this);
         timer = new Timer(16, e -> updateGame());

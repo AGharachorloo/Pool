@@ -2,11 +2,8 @@ import java.awt.*;
 
 public class Ball {
     private final int RADIUS = 10;
-//    private int num;
     private double x, y, vx, vy;
-//    private Image ballImage;
     private Color color;
-//    private boolean isStriped;
 
     public Ball(double x, double y, Color color) {
         this.x = x;
@@ -104,14 +101,6 @@ public class Ball {
         return dist < RADIUS;
     }
 
-//    public int getNum() {
-//        return num;
-//    }
-//
-//    public void setNum(int num) {
-//        this.num = num;
-//    }
-
     public double getX() {
         return x;
     }
@@ -139,15 +128,6 @@ public class Ball {
     public void setVy(double vy) {
         this.vy = vy;
     }
-
-    //    public Image getBallImage() {
-//        return ballImage;
-//    }
-
-
-//    public boolean isStriped() {
-//        return isStriped;
-//    }
 
     public final double getRadius() {
         return RADIUS;

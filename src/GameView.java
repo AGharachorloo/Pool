@@ -7,7 +7,7 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
     public final static int WINDOW_WIDTH = 468;
     public final static int BALL_DIAMETER = 15;
     private final int INTRO_SCREEN = 0, GAME_SCREEN = 1, END_SCREEN = 2;
-    private Image instructions, table, intro, results;
+    private Image table;
     private Game back;
     private Font titleFont, instructionFont;
 
@@ -16,10 +16,7 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
         this.back = back;
         titleFont = new Font("SansSerif", Font.BOLD, 36);
         instructionFont = new Font("SanSerif", Font.PLAIN, 18);
-//        instructions = new ImageIcon();
         table = new ImageIcon("Resources/poolTable.png").getImage();
-//        intro = new ImageIcon();
-//        results = new ImageIcon();
         this.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         this.setBackground(Color.WHITE);
         addMouseListener(this);
