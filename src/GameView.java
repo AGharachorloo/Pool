@@ -6,7 +6,6 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
     public final static int WINDOW_HEIGHT = 796;
     public final static int WINDOW_WIDTH = 468;
     public final static int BALL_DIAMETER = 15;
-    private final int INTRO_SCREEN = 0, GAME_SCREEN = 1, END_SCREEN = 2;
     private Image table;
     private Game back;
     private Font titleFont, instructionFont;
