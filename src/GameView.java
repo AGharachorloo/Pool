@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class GameView extends JPanel implements MouseListener, MouseMotionListener {
+public class GameView extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
     public final static int WINDOW_HEIGHT = 796;
     public final static int WINDOW_WIDTH = 468;
     public final static int BALL_DIAMETER = 15;
@@ -10,6 +10,7 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
     private Image instructions, table, intro, results;
     private Game back;
 
+    // Initialize the window & set up mouseListeners
     public GameView(Game back) {
         this.back = back;
 //        instructions = new ImageIcon();
@@ -20,6 +21,8 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
         this.setBackground(Color.WHITE);
         addMouseListener(this);
         addMouseMotionListener(this);
+        addKeyListener(this);
+        this.setFocusable(true);
         this.setVisible(true);
     }
 
@@ -36,6 +39,7 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
     }
 
     @Override
+    // Draws table, balls, cueline, score, & playerTurn
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(table, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
@@ -62,22 +66,26 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
     }
 
     @Override
+    // Start aiming when mouse pressed
     public void mousePressed(MouseEvent e) {
         back.setCueStart(e.getPoint());
         back.setAiming(true);
     }
 
     @Override
+    // Shoot the cue ball when released
     public void mouseReleased(MouseEvent e) {
         back.shoot(e.getPoint());
     }
 
     @Override
+    // Update mouse position while dragging
     public void mouseDragged(MouseEvent e) {
         back.setMousePosition(e.getX(), e.getY());
     }
 
     @Override
+    // Update mouse position when mouse moved
     public void mouseMoved(MouseEvent e) {
         back.setMousePosition(e.getX(), e.getY());
     }
@@ -88,4 +96,20 @@ public class GameView extends JPanel implements MouseListener, MouseMotionListen
     public void mouseEntered(MouseEvent e) {}
     @Override
     public void mouseExited(MouseEvent e) {}
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_R) {
+            back.restartGame();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }

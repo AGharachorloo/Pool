@@ -19,6 +19,7 @@ public class Ball {
         this.vy = vy;
     }
 
+    // Move the ball & apply friction and wall collisions
     public void update() {
         x += vx;
         y += vy;
@@ -38,11 +39,13 @@ public class Ball {
         }
     }
 
+    // Draw ball on window
     public void draw(Graphics g) {
         g.setColor(color);
         g.fillOval((int)(x - RADIUS), (int)(y - RADIUS), RADIUS * 2, RADIUS * 2);
     }
 
+    // Return true if this ball is touching another ball
     public boolean collidesWith(Ball other) {
         double dx = x - other.x;
         double dy = y - other.y;
@@ -95,9 +98,10 @@ public class Ball {
 
     }
 
+    // Return true if a point is inside this ball
     public boolean contains(int checkX, int checkY) {
         double dist = Math.sqrt((checkX - x) * (checkX - x) + (checkY - y) * (checkY - y));
-        return dist < 10;
+        return dist < RADIUS;
     }
 
 //    public int getNum() {
